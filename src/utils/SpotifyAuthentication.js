@@ -5,6 +5,7 @@ import * as AuthSession from 'expo-auth-session';
 import { Button } from 'react-native';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Platform, ActivityIndicator, Component } from 'react-native'
 import * as RootNavigation from '../navigation/RootNavigation';
+import {myAppId, mySecretId} from '../../clientIds.js';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -16,8 +17,6 @@ const discovery = {
   tokenEndpoint: 'https://accounts.spotify.com/api/token',
 };
 
-var myAppId = '50083dcc75f24a2e9d03aa5edcc20afc';
-var mySecretId = '2c71ade09e8a40fd8b71025bee3c795d';
 var myRedirectUri = '';  //quando o app buildar tem que colocar o link certo aqui e no app do spotifydeveloper
 
 if (typeof document != 'undefined') //se for web
