@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
 import { Dimensions } from 'react-native';
 import SpotifyAuthentication from "./utils/SpotifyAuthentication";
+import DeezerAuthentication from "./utils/DeezerAuthentication";
 
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
@@ -58,25 +59,19 @@ class Login extends Component {
             
             <View>
                 <View >
-                    <TouchableOpacity
+                     <TouchableOpacity
                         style = {styles.EntrarButton}
                         onPress = {
                             () => this.login(this.state.email, this.state.password)
                         }>
                         <Text style = {styles.submitButtonText}> Entrar </Text>
-                    </TouchableOpacity>
+                     </TouchableOpacity>
                 </View>
                 <View>
-                    <SpotifyAuthentication/>
+                     <SpotifyAuthentication/>
                 </View>
                 <View>
-                    <TouchableOpacity
-                        style = {styles.DeezerButton}
-                        onPress = {
-                            () => this.login(this.state.email, this.state.password)
-                        }>
-                        <Text style = {styles.submitButtonText}> Entrar com Deezer </Text>
-                    </TouchableOpacity>
+                     <DeezerAuthentication/>
                 </View>
             </View>
          </View>
@@ -111,15 +106,7 @@ const styles = StyleSheet.create({
         marginTop:15,
         marginBottom:10
    },
-   DeezerButton: {
-        backgroundColor:"#ef5466",
-        borderRadius:25,
-        height:50,
-        alignItems:"center",
-        justifyContent:"center",
-        marginTop:15,
-        marginBottom:10
-   },
+   
    submitButtonText:{
       color: 'white'
    }

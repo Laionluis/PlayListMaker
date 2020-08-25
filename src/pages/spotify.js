@@ -7,7 +7,6 @@ function Spotify({ route, navigation }) {
   const [nome, setNome] = useState(0);
   const [imagem, setImagem] = useState(0);
   const { accessToken } = route.params;
-
   ObterPerfil(accessToken).then((result) => {
     console.log(result);
     setNome(result.display_name);
