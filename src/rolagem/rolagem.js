@@ -25,25 +25,17 @@ export default function Tabs({ translateY }) {
     >
       <TabsContainer>
         <TabItem>
-          <Icon name="person-add" size={24} color="#FFF" />
-          <TabText>Indicar amigos</TabText>
-        </TabItem>
+          <Icon name="person-add" size={30} color="#FFF" />
+          <TabText style={{fontSize: 11}}>{'Criar\nAutomaticamente'}</TabText>
+        </TabItem>  
         <TabItem>
-          <Icon name="chat-bubble-outline" size={24} color="#FFF" />
-          <TabText>Cobrar</TabText>
-        </TabItem>
+          <Icon name="person-add" size={30} color="#FFF" />
+          <TabText style={{fontSize: 11}}>Criar Manualmente</TabText>
+        </TabItem>   
         <TabItem>
-          <Icon name="arrow-downward" size={24} color="#FFF" />
-          <TabText>Depositar</TabText>
-        </TabItem>
-        <TabItem>
-          <Icon name="arrow-upward" size={24} color="#FFF" />
-          <TabText>Transferir</TabText>
-        </TabItem>
-        <TabItem>
-          <Icon name="lock" size={24} color="#FFF" />
-          <TabText>Bloquear cartão</TabText>
-        </TabItem>
+          <Icon name="person-add" size={30} color="#FFF" />
+          <TabText style={{fontSize: 11}}>Suas Playlists</TabText>
+        </TabItem>               
       </TabsContainer>
     </Container>
   );

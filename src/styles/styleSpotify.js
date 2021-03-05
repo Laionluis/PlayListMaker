@@ -6,12 +6,12 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 // Evita-se o uso de Tricks para manter o layout ao rotacionar
 export const SafeAreaView = styled.SafeAreaView`
   flex: 1;
-  background: #1db954;
+  background: #303846;
 `;
 
 export const Container = styled.View`
   flex: 1;
-  background: #1db954;
+  background: #303846;
   /* Não necessário o uso */
   /* padding-top: ${getStatusBarHeight()}px; */
   justify-content: center;
@@ -39,12 +39,15 @@ export const CardHeader = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 30px;
+  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+
 `;
 
 export const CardContent = styled.View`
   flex: 1;
-  padding: 0 30px;
+  padding: 0 20px;
   justify-content: center;
 `;
 

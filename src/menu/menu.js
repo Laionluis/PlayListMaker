@@ -19,7 +19,7 @@ export default function Menu({ translateY , imagem }) {
        <Image
             style={{ width: 100, height: 100 }}
             source={{
-                uri: imagem,
+                uri: imagem ?? '',
             }}
         />
       </Code>
@@ -32,15 +32,7 @@ export default function Menu({ translateY , imagem }) {
         <NavItem>
           <Icon name="person-outline" size={20} color="#FFF" />
           <NavText>Perfil</NavText>
-        </NavItem>
-        <NavItem>
-          <Icon name="credit-card" size={20} color="#FFF" />
-          <NavText>Configurar cartão</NavText>
-        </NavItem>
-        <NavItem>
-          <Icon name="smartphone" size={20} color="#FFF" />
-          <NavText>Configurações do app</NavText>
-        </NavItem>
+        </NavItem>        
       </Nav>
 
       <SignOutButton onPress={() => {}}>

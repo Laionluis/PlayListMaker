@@ -23,6 +23,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "myapp"
+    "scheme": "myapp",
+    "android": {
+      "softwareKeyboardLayoutMode": "pan"
+    }
   }
 }

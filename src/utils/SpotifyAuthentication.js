@@ -24,7 +24,7 @@ if (typeof document != 'undefined') //se for web
   myRedirectUri = 'http://localhost:19006/'; //se tiver um site
 } else
 {
-  myRedirectUri = 'exp://192.168.1.6:19000/';
+  myRedirectUri = 'exp://192.168.1.9:19000/';
 }
 
 export default function SpotifyAuthentication() {
