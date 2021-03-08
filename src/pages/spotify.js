@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useState, Fragment } from 'react';
-import { Animated , TouchableOpacity, FlatList, View, Image, Platform, UIManager, LayoutAnimation, Text, StyleSheet, Button, TextInput, Alert  } from 'react-native';
+import { Animated , TouchableOpacity, FlatList, View, Image, Platform, UIManager, LayoutAnimation, Text, StyleSheet, Button, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { Container, Content, Card, CardHeader, CardContent, CardFooter, Title, Description, Annotation, SafeAreaView} from '../styles/styleSpotify';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import {ObterPerfil, ObterRecomendacaoes, PesquisarMusicas} from '../services/SpotifyService';
@@ -10,6 +10,8 @@ import Menu from '../menu/menu';
 import Rolagem from '../rolagem/rolagem';
 import { SearchBar } from 'react-native-elements';
 import ModalPlaylist from '../controls/ModalPlaylist';
+import ModalSalvarPlaylist from '../controls/ModalSalvarPlaylist';
+import {addData, findByIdSpotify} from '../services/playListService';
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) 
 {
@@ -21,13 +23,16 @@ function Spotify({ route, navigation })
   const [musics, setMusics] = useState([]);
   const [playlistAtual, setplaylistAtual] = useState([]);
   const [disabled, setDisabled] = useState(false);
+  const [apertouSalvar, setApertouSalvar] = useState(false);
+  const [showDone, setshowDone] = useState(false);
   const [firstBoxPosition, setFirstBoxPosition] = useState("left");
   const [secondBoxPosition, setSecondBoxPosition] = useState("left");
   const [thirdBoxPosition, setThirdBoxPosition] = useState("left");
   const [nome, setNome] = useState(0);
+  const [userId, setUserId] = useState(0);
   const [showLoading, setshowLoading] = useState(false);
   const [search, setSearch] = useState('');
-  const [imagem, setImagem] = useState(0);
+  const [imagem, setImagem] = useState(null);
   const [carregouPerfil, setCarregouPerfil] = useState(0);  //pra nao ficar carregando toda hora 
   const { accessToken } = route.params;
 
@@ -42,6 +47,7 @@ function Spotify({ route, navigation })
   {
     ObterPerfil(accessToken).then((result) => 
     {            
+      setUserId(result.id);
       setNome(result.display_name);
       setImagem(result.images[0].url);
       setCarregouPerfil(true);
@@ -114,12 +120,22 @@ function Spotify({ route, navigation })
     }    
   }
 
+  function AddNaPlaylist(check, item){
+    if(!check){
+      var itemPlaylist = {
+        artista: item.artista,
+        title: item.title,
+        utlImagem: item.imagemUrl,
+        idSpotify: item.id      
+      };  
+      addData(itemPlaylist);        
+      Alert.alert('Música adicionada na playlist atual.');
+    } else
+      Alert.alert('Música ja esta na playlist atual.');
+  }
+
   function onAdicionarNaPlaylist(item) {  
-    const dataplaylists = playlistAtual;
-    dataplaylists.push(item); 
-    setplaylistAtual(dataplaylists);
-    console.log(playlistAtual);
-    Alert.alert('Música adicionada na playlist atual.');
+    findByIdSpotify(item.id).then(resp => AddNaPlaylist(resp, item));      
   }
  
   return (
@@ -157,7 +173,7 @@ function Spotify({ route, navigation })
           </PanGestureHandler>
           <PanGestureHandler
             enabled={true}
-            activeOffsetY={[-50, 70]}
+            activeOffsetY={[-50, 70]} //para nao ativar na lista das musicas
             onGestureEvent={animatedEvent}
             onHandlerStateChange={onHandlerStateChanged}
           >
@@ -206,12 +222,9 @@ function Spotify({ route, navigation })
               </CardContent>
               <CardFooter>                            
                 <View style={styles.fixToText}>
-                  <ModalPlaylist playlist={playlistAtual}></ModalPlaylist>    
-                  <Button
-                    title="Salvar"
-                    onPress={() => Alert.alert('Salvar')}
-                  />
-              </View>               
+                  <ModalPlaylist></ModalPlaylist>    
+                  <ModalSalvarPlaylist userId={userId} accessToken={accessToken}></ModalSalvarPlaylist>    
+                </View>               
               </CardFooter>
             </Card>
           </PanGestureHandler>
@@ -272,6 +285,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  Buttons: {
+      backgroundColor:"#666",
+      borderRadius:25,
+      height:35,
+      width:100,
+      alignItems:"center",
+      justifyContent:"center",
+      marginTop:15,
+      marginBottom:10
+   },
 });
 
 export default Spotify;

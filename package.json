@@ -43,7 +43,8 @@
     "react-native-web": "^0.15.0",
     "react-navigation": "^4.4.0",
     "request": "^2.88.2",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "expo-sqlite": "~8.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

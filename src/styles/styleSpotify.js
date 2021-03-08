@@ -19,7 +19,7 @@ export const Container = styled.View`
 
 export const Content = styled.View`
   flex: 1;
-  max-height: 400px;
+  max-height: 450px;
   z-index: 5;
 `;
 
@@ -63,7 +63,7 @@ export const Description = styled.Text`
 `;
 
 export const CardFooter = styled.View`
-  padding: 30px;
+  padding: 10px;
   background: #eee;
   border-radius: 4px;
 `;

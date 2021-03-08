@@ -1,16 +1,29 @@
 import React, { useState, Fragment } from "react";
 import { Alert, Modal, StyleSheet, Text, Button, View, TouchableWithoutFeedback, TouchableOpacity, FlatList, Image } from "react-native";
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {findAll, deleteData} from '../services/playListService';
 
-export default function ModalPlaylist({ playlist })
+export default function ModalPlaylist()
 {
   const [modalVisible, setModalVisible] = useState(false);
+  const [playlist, setPlaylist] = useState([]);
+
+  function procurarPlaylists() {  
+    if(modalVisible)    
+      findAll().then(resp => setPlaylist(resp));
+  }
+
+  function onDeleteDaPlaylist(item) {  
+    deleteData(item.idSpotify).then(resp => procurarPlaylists());      
+  }
+
   return (
     <View>
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
+        onShow={procurarPlaylists()}
         onRequestClose={() => {         
           setModalVisible(!modalVisible);
         }}
@@ -21,7 +34,8 @@ export default function ModalPlaylist({ playlist })
 
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Fragment>        
+            <Fragment>    
+              <Text style={playlist.length > 0? {display: 'none'} : {fontSize: 30, color: 'white'}}>Playlist Vazia</Text>     
               <FlatList style={styles.flatList}
                   data={playlist}
                   renderItem={({item}) =>  
@@ -30,18 +44,18 @@ export default function ModalPlaylist({ playlist })
                         <Image
                             style={{ width: 50, height: 50, marginLeft: 4,marginRight: 4 }}
                             source={{
-                                uri: item.imagemUrl ?? '',
+                                uri: item.utlImagem ?? '',
                             }}
                         />     
                         <View style={{ width: 180}}>     
                           <Text>{item.title}</Text>
                           <Text style={{fontSize: 12}}>{item.artista}</Text> 
                         </View> 
-                        <Icon style={{position: 'absolute', right: 0}} name="delete-forever" size={35} color="#666"/>
+                        <Icon style={{position: 'absolute', right: 0}} name="delete-forever" size={35} color="#666" onPress={() => onDeleteDaPlaylist(item)}/>
                       </View>   
                     </TouchableOpacity>                      
                   }
-                  keyExtractor={item => item.id}
+                  keyExtractor={item => item.idSpotify}
                 />
               </Fragment>  
             <Button
@@ -52,11 +66,11 @@ export default function ModalPlaylist({ playlist })
           </View>
         </View>
       </Modal>
-      <Button
-        title="Ver Playlist"
-        onPress={() => setModalVisible(true)}
-      >
-      </Button>
+      <TouchableOpacity
+        style={styles.Buttons}                                    
+        onPress={() => setModalVisible(true)}>
+        <Text> Ver Playlist </Text>
+      </TouchableOpacity>       
     </View>
   );
 };
@@ -70,9 +84,9 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    minWidth: '70%',
+    minWidth: '85%',
     height: '70%',
-    backgroundColor: "white",
+    backgroundColor: "gray",
     borderRadius: 20,
     padding: 35,
     alignItems: "center",
@@ -117,6 +131,7 @@ const styles = StyleSheet.create({
   },
   item: {         
     flex: 1,
+    backgroundColor: 'white',
     flexDirection: 'row', 
     paddingTop: 5,
     paddingBottom: 5,
@@ -125,4 +140,14 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     marginBottom: 3,
   },
+  Buttons: {
+      backgroundColor:"#666",
+      borderRadius:25,
+      height:35,
+      width:100,
+      alignItems:"center",
+      justifyContent:"center",
+      marginTop:15,
+      marginBottom:10
+   },
 });
