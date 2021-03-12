@@ -18,9 +18,7 @@ export default function Menu({ translateY , imagem }) {
       <Code>
        <Image
             style={{ width: 100, height: 100 }}
-            source={{
-                uri: imagem ?? '',
-            }}
+            source={imagem ? {uri: imagem} : null}
         />
       </Code>
 

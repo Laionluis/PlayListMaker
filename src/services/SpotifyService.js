@@ -102,4 +102,20 @@ export async function AddMusicasNaPlaylist(parametros)
     return json;
 }
 
-export default {ObterPerfil, ObterRecomendacaoes, PesquisarMusicas, CriarPlaylist, AddMusicasNaPlaylist}
+export async function PesquisarPlaylists(parametros) 
+{    
+    var accessToken = parametros.accessToken;
+    var url = 'https://api.spotify.com/v1/me/playlists';
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+        }
+    });
+    const json = await res.json();
+    return json;
+}
+
+export default {ObterPerfil, ObterRecomendacaoes, PesquisarMusicas, CriarPlaylist, AddMusicasNaPlaylist, PesquisarPlaylists}
