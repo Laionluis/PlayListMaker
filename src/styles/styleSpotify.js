@@ -1,6 +1,8 @@
-import { Animated } from 'react-native';
+import { Animated, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+const window = Dimensions.get("window");
+const screen = Dimensions.get("screen");
 
 // Styled SafeArea iPhoneX e outros for bugs
 // Evita-se o uso de Tricks para manter o layout ao rotacionar
@@ -19,7 +21,7 @@ export const Container = styled.View`
 
 export const Content = styled.View`
   flex: 1;
-  max-height: 450px;
+  max-height: ${window.height - 210}px;
   z-index: 5;
 `;
 

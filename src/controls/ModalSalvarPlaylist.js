@@ -73,7 +73,7 @@ export default function ModalPlaylist({userId, accessToken})
           setModalVisible(!modalVisible);
         }}
       >
-       <TouchableWithoutFeedback onPress={() => {setModalVisible(false)}}>
+        <TouchableWithoutFeedback onPress={() => {setModalVisible(false)}}>
           <View style={styles.modalOverlay} />
         </TouchableWithoutFeedback>
 

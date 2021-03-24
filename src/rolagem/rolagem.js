@@ -1,6 +1,6 @@
 import React from 'react';
-import { TouchableOpacity } from "react-native";
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { TouchableOpacity, View } from "react-native";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
   Container, TabsContainer, TabItem, TabText,
@@ -24,24 +24,31 @@ export default function Tabs({ translateY, onCliqueOpcao }) {
         outputRange: [1, 0.3],
         extrapolate: 'clamp',
       }),
+      alignItems: 'center',
     }}
     >
       <TabsContainer>
         <TouchableOpacity onPress={() => onCliqueRolagem(1)}>
-          <TabItem>          
-              <Icon name="person-add" size={30} color="#FFF" />
+          <TabItem>     
+              <View style={{justifyContent: 'center',alignItems: 'center'}}>           
+                <Icon name="playlist-star" size={30} color="#FFF" />
+              </View>     
               <TabText style={{fontSize: 11}}>{'Criar\nAutomaticamente'}</TabText>          
           </TabItem>  
         </TouchableOpacity> 
         <TouchableOpacity onPress={() => onCliqueRolagem(2)}> 
           <TabItem>
-            <Icon name="person-add" size={30} color="#FFF" />
+            <View style={{justifyContent: 'center',alignItems: 'center'}}>            
+              <Icon name="playlist-plus" size={30} color="#FFF" />
+            </View>
             <TabText style={{fontSize: 11}}>Criar Manualmente</TabText>
           </TabItem>   
         </TouchableOpacity> 
         <TouchableOpacity onPress={() => onCliqueRolagem(3)}> 
           <TabItem>
-            <Icon name="person-add" size={30} color="#FFF" />
+            <View style={{justifyContent: 'center',alignItems: 'center'}}>            
+              <Icon name="playlist-music-outline" size={30} color="#FFF" />
+            </View>
             <TabText style={{fontSize: 11}}>Suas Playlists</TabText>
           </TabItem>           
         </TouchableOpacity>     

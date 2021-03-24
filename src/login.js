@@ -19,17 +19,10 @@ class Login extends Component {
         window
       }
    }
-   handleEmail = (text) => {
-      this.setState({ email: text })
-   }
-   handlePassword = (text) => {
-      this.setState({ password: text })
-   }
-   login = (email, pass) => {
-      alert('email: ' + email + ' password: ' + pass)
-   }
-   onChange = ({ window, screen }) => {
-    this.setState({ dimensions: { window, screen } });
+
+   onChange = ({ window, screen }) => {      
+      console.log(screen, window);
+      this.setState({ dimensions: { window, screen } });
    };
 
    componentDidMount() {
@@ -38,35 +31,12 @@ class Login extends Component {
    componentWillUnmount() {
        Dimensions.removeEventListener("change", this.onChange);
    }
-
    render() {
       const { dimensions } = this.state;
       return (
-         <View style = {{flex:1,  justifyContent:'center', backgroundColor: '#003f5c'}}>
-            <TextInput style = {styles.input}
-               underlineColorAndroid = "transparent"
-               placeholder = "Email"
-               placeholderTextColor = "#9a73ef"
-               autoCapitalize = "none"
-               onChangeText = {this.handleEmail}/>
+         <View style = {{flex:1,  justifyContent:'center', backgroundColor: '#003f5c'}}>         
             
-            <TextInput style = {styles.input}
-               underlineColorAndroid = "transparent"
-               placeholder = "Password"
-               placeholderTextColor = "#9a73ef"
-               autoCapitalize = "none"
-               onChangeText = {this.handlePassword}/>
-            
-            <View>
-                <View >
-                     <TouchableOpacity
-                        style = {styles.EntrarButton}
-                        onPress = {
-                            () => this.login(this.state.email, this.state.password)
-                        }>
-                        <Text style = {styles.submitButtonText}> Entrar </Text>
-                     </TouchableOpacity>
-                </View>
+            <View>            
                 <View>
                      <SpotifyAuthentication/>
                 </View>

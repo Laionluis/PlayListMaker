@@ -2,7 +2,16 @@ import { ItemPlayList } from '../models/itemPlayList'
 import {DatabaseConnection} from '../database/DatabaseConnection'
 
 const table = "PlayList"
-const db=DatabaseConnection.getConnection()
+var db = null;
+
+if (typeof document != 'undefined') //se for web
+{
+    // usar cache/local storage ou web sql do chrome
+    db = openDatabase('databasePlaylist', '1.0', 'Playlist DB', 2 * 1024 * 1024);
+} else
+{
+    db = DatabaseConnection.getConnection();
+}
 
 export async function addData(param) {
     return new Promise((resolve, reject) =>db.transaction(
@@ -23,10 +32,13 @@ export async function addData(param) {
 export async function findAll() {
     let playList = []; 
     return new Promise((resolve, reject) => db.transaction(tx => {
-            tx.executeSql(`select * from ${table}`, [], (_, { rows }) => {                
-                let data = rows.length;           
-                for (let i = 0; i < rows.length; i++) {   
-                    playList.push(rows._array[i]);                   
+            tx.executeSql(`select * from ${table}`, [], (_, { rows }) => {        
+                var rows_ = rows._array;
+                if (typeof document != 'undefined') //se for web    
+                    rows_ = rows;
+                let data = rows_.length;           
+                for (let i = 0; i < rows_.length; i++) {   
+                    playList.push(rows_[i]);                   
                 }
                 resolve(playList);
             }), (sqlError) => {

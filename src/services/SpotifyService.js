@@ -118,4 +118,36 @@ export async function PesquisarPlaylists(parametros)
     return json;
 }
 
-export default {ObterPerfil, ObterRecomendacaoes, PesquisarMusicas, CriarPlaylist, AddMusicasNaPlaylist, PesquisarPlaylists}
+export async function SelecionarGeneros(parametros) 
+{    
+    var accessToken = parametros.accessToken;
+    var url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+        }
+    });
+    const json = await res.json();
+    return json;
+}
+
+export async function SelecionarMarkets(parametros) 
+{    
+    var accessToken = parametros.accessToken;
+    var url = 'https://api.spotify.com/v1/markets';
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + accessToken,
+            'Content-Type' : 'application/json',
+            'Accept' : 'application/json'
+        }
+    });
+    const json = await res.json();
+    return json;
+}
+
+export default {ObterPerfil, ObterRecomendacaoes, PesquisarMusicas, CriarPlaylist, AddMusicasNaPlaylist, PesquisarPlaylists, SelecionarGeneros, SelecionarMarkets}

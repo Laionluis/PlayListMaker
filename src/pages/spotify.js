@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useState, Fragment } from 'react';
-import { Animated , TouchableOpacity, FlatList, View, Image, Platform, UIManager, LayoutAnimation, Text, StyleSheet, Button, TextInput, ActivityIndicator, Alert, Linking } from 'react-native';
+import { Animated , TouchableOpacity, FlatList, View, Image, Platform, UIManager, LayoutAnimation, Text, StyleSheet, Button, TextInput, ActivityIndicator, Alert, Linking, Dimensions } from 'react-native';
 import { Container, Content, Card, CardHeader, CardContent, CardFooter, Title, Description, Annotation, SafeAreaView} from '../styles/styleSpotify';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import {ObterPerfil, ObterRecomendacaoes, PesquisarMusicas, PesquisarPlaylists} from '../services/SpotifyService';
+import {ObterPerfil, ObterRecomendacaoes, PesquisarMusicas, PesquisarPlaylists, SelecionarGeneros, SelecionarMarkets} from '../services/SpotifyService';
 import styled from 'styled-components/native';
 import Menu from '../menu/menu';
 import Rolagem from '../rolagem/rolagem';
@@ -12,6 +12,7 @@ import { SearchBar } from 'react-native-elements';
 import ModalPlaylist from '../controls/ModalPlaylist';
 import ModalSalvarPlaylist from '../controls/ModalSalvarPlaylist';
 import {addData, findByIdSpotify} from '../services/playListService';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) 
 {
@@ -22,7 +23,11 @@ function Spotify({ route, navigation })
 {
   const [musics, setMusics] = useState([]);
   const [playlistsSpotify, setPlaylistsSpotify] = useState([]);
-  const [playlistAtual, setplaylistAtual] = useState([]);
+  const [generos, setGeneros] = useState([]);
+  const [generoSelecionado, setgeneroSelecionado] = useState([]);
+  const [markets, setMarket] = useState([]);
+  const [marketSelecionado, setmarketSelecionado] = useState([]);
+  const [playlistAtual, setplaylistAtual] = useState('');
   const [disabled, setDisabled] = useState(false);
   const [apertouSalvar, setApertouSalvar] = useState(false);
   const [showDone, setshowDone] = useState(false);
@@ -48,7 +53,7 @@ function Spotify({ route, navigation })
   if(!carregouPerfil)
   {
     ObterPerfil(accessToken).then((result) => 
-    {            
+    {        
       setUserId(result.id);
       setNome(result.display_name);
       setImagem(result.images[0].url);
@@ -140,6 +145,38 @@ function Spotify({ route, navigation })
     findByIdSpotify(item.id).then(resp => AddNaPlaylist(resp, item));      
   }
 
+  function carregarGeneros() {  
+    var generosList = [];  
+    if(generos.length == 0){
+      var parametros = {
+        accessToken: accessToken      
+      };     
+      SelecionarGeneros(parametros).then((result) => 
+      {            
+        result.genres.forEach(function(item){          
+            generosList.push({label: item, value: item});  
+        });
+        setGeneros(generosList);
+      })   
+    }    
+  }
+
+  function carregarMarkets() {  
+    var marketsList = [];  
+    if(markets.length == 0){
+      var parametros = {
+        accessToken: accessToken      
+      };     
+      SelecionarMarkets(parametros).then((result) => 
+      {            
+        result.markets.forEach(function(item){          
+            marketsList.push({label: item, value: item});  
+        });
+        setMarket(marketsList);
+      })   
+    }    
+  }
+
   function onCliqueRolagem(opcao) {  
     setOpcaoRolagem(opcao);   
     var dataPlaylists = [];  
@@ -167,6 +204,7 @@ function Spotify({ route, navigation })
 
           {opcaoRolagem == 1 && (
             <PanGestureHandler
+              activeOffsetY={[-50, 70]} //para nao ativar na lista das musicas
               onGestureEvent={animatedEvent}
               onHandlerStateChange={onHandlerStateChanged}
             >
@@ -177,12 +215,39 @@ function Spotify({ route, navigation })
                     outputRange: [-50, 0, 380],
                     extrapolate: 'clamp',
                   }),
-                }],
+                }], 
               }}
               >
-                <CardHeader>                  
-                </CardHeader>
-                <CardContent>                  
+                <CardContent> 
+                <View style={{flex:1}}> 
+                  <Text style={{fontSize: 11}}>Nacionalidade:</Text>
+                  <DropDownPicker
+                    items={markets}                    
+                    containerStyle={{height: 40, marginBottom:5}}
+                    style={{backgroundColor: '#fafafa'}}
+                    itemStyle={{
+                        justifyContent: 'flex-start'
+                    }}
+                    placeholder="Selecione uma nacionalidade"
+                    onOpen={() => carregarMarkets()}
+                    dropDownStyle={{backgroundColor: '#fafafa'}}
+                    onChangeItem={item => setmarketSelecionado(item.value)}
+                  />
+                  <Text style={{fontSize: 11}}>Gênero:</Text>
+                  <DropDownPicker
+                    items={generos}                    
+                    containerStyle={{height: 40}}
+                    style={{backgroundColor: '#fafafa'}}
+                    itemStyle={{
+                        justifyContent: 'flex-start'
+                    }}
+                    placeholder="Selecione um gênero"
+                    onOpen={() => carregarGeneros()}
+                    dropDownStyle={{backgroundColor: '#fafafa'}}
+                    onChangeItem={item => setgeneroSelecionado(item.value)}
+                  />
+
+                </View>                 
                 </CardContent>               
               </Card>
             </PanGestureHandler>
@@ -357,6 +422,16 @@ const styles = StyleSheet.create({
       marginTop:15,
       marginBottom:10
    },
+   inputFiltro: {   
+      height: 40,
+      width: '100%',
+      alignSelf: 'stretch',
+      borderColor: '#666',
+      borderWidth: 1,
+      borderRadius: 7,
+      paddingLeft: 15,
+      marginBottom: 5
+  },
 });
 
 export default Spotify;
