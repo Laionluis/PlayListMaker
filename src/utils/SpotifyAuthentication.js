@@ -3,9 +3,11 @@ import * as WebBrowser from 'expo-web-browser';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import * as AuthSession from 'expo-auth-session';
 import { Button } from 'react-native';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Platform, ActivityIndicator, Component } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Platform, ActivityIndicator, Component, Alert } from 'react-native'
 import * as RootNavigation from '../navigation/RootNavigation';
 import {myAppId, mySecretId} from '../../clientIds.js';
+import {NativeRouter, Route, Link, Redirect, withRouter, useLocation} from "react-router-native";
+import ReactDOM from "react-dom";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -24,6 +26,7 @@ if (typeof document != 'undefined') //se for web
   myRedirectUri = 'http://localhost:19006/'; //se tiver um site
 } else
 {
+  //myRedirectUri = makeRedirectUri({native: 'playlistmaker://'});
   myRedirectUri = 'exp://192.168.1.9:19000/';
 }
 
@@ -44,13 +47,14 @@ export default function SpotifyAuthentication() {
       // this must be set to false
       usePKCE: false,
       // For usage in managed apps using the proxy
-      redirectUri: myRedirectUri
+      redirectUri: myRedirectUri,
     },
     discovery
   );
 
   // cuida da resposta do login
   React.useEffect(() => {   
+      
      if (!mySecretId || !request || !discovery || response?.type !== 'success') {
       return;
      }

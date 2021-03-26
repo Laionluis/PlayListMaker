@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useState, Fragment } from 'react';
-import { Animated , TouchableOpacity, FlatList, View, Image, Platform, UIManager, LayoutAnimation, Text, StyleSheet, Button, TextInput, ActivityIndicator, Alert, Linking, Dimensions } from 'react-native';
+import { Animated , TouchableOpacity, FlatList, View, Image, Platform, UIManager, LayoutAnimation, Text, StyleSheet, Button, TextInput, ActivityIndicator, Alert, Linking, Dimensions, NativeModules } from 'react-native';
 import { Container, Content, Card, CardHeader, CardContent, CardFooter, Title, Description, Annotation, SafeAreaView} from '../styles/styleSpotify';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import {ObterPerfil, ObterRecomendacaoes, PesquisarMusicas, PesquisarPlaylists, SelecionarGeneros, SelecionarMarkets} from '../services/SpotifyService';

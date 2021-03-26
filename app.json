@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Teste",
-    "slug": "Teste",
+    "name": "PlayList Maker",
+    "slug": "PlayListMaker",
     "version": "1.0.0",
     "privacy": "public",
     "orientation": "portrait",
@@ -18,14 +18,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.laionduwan.playlistmaker"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "scheme": "myapp",
+    "scheme": "playlistmaker",
     "android": {
-      "softwareKeyboardLayoutMode": "pan"
+      "package": "com.laionduwan.playlistmaker",
+      "softwareKeyboardLayoutMode": "pan",
+      "versionCode": 1
     }
   }
 }

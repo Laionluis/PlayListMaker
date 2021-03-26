@@ -13,15 +13,16 @@ export const SafeAreaView = styled.SafeAreaView`
 
 export const Container = styled.View`
   flex: 1;
-  background: #303846;
   /* Não necessário o uso */
   /* padding-top: ${getStatusBarHeight()}px; */
+  margin-bottom: 0px;
   justify-content: center;
 `;
 
 export const Content = styled.View`
-  flex: 1;
-  max-height: ${window.height - 210}px;
+  flex: 1;  
+  max-height: ${window.height - 150}px;
+  margin-top: 20px;
   z-index: 5;
 `;
 

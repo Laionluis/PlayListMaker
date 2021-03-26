@@ -22,6 +22,7 @@ export default function Navigation() {
             component={Login}
           />
           <Stack.Screen
+            options={{headerShown: false}}
             name="Spotify"
             component={Spotify}
           />
